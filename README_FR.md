@@ -4,9 +4,8 @@ Reconstruire les briques d'un modèle de langue à la main, sans PyTorch et sans
 
 **Léo Mégret**, Master Linguistique Informatique, Université Paris Cité
 
-> **État du dépôt, version 1.** C'est la première étape d'un travail que je mène
-> par étapes, chacune dans son propre dossier. Seule la version 1 existe à ce
-> jour. Je publie au fur et à mesure plutôt qu'une fois tout terminé.
+> **État du dépôt, version 2.** Je mène ce travail par étapes, chacune dans son
+> propre dossier. Je publie au fur et à mesure plutôt qu'une fois tout terminé.
 
 ---
 
@@ -26,63 +25,37 @@ m'arrête dessus.
 
 ---
 
-## Ce qui existe aujourd'hui
+## Les versions publiées
 
-### Version 1, fondations. Algèbre, perceptron, et pourquoi il faut des couches
+| | Dossier | Contenu | Tests |
+|---|---|---|---:|
+| **1** | `1.transformer_python_projet` | Algèbre, perceptron, et pourquoi il faut des couches | 13 |
+| **2** | `2.transformer_python_projet` | La rétropropagation, écrite à la main | 11 |
 
-| Fichier | Ce que j'y fais |
-|---|---|
-| `src/algebre.py` | Combinaison linéaire, ReLU et tanh, softmax et log-softmax numériquement stables, entropie croisée et son gradient, similarité cosinus, vérificateur de gradient par différences finies. |
-| `src/perceptron.py` | Perceptron multiclasse écrit à la main, règle de Rosenblatt, version moyennée, sac de mots maison. |
-| `src/operateurs_logiques.py` | AND, OR et NAND posés à la main, preuve que XOR est hors de portée d'un neurone, MLP à une couche cachée qui le résout. |
-| `tests/test_fondations.py` | 13 tests, dont la vérification du gradient. |
-
-Origine universitaire. Trois TP de *Machine Learning for NLP 1* (Marie Candito,
-M1) et le TP 1 de *Machine Learning for NLP 3* (Timothée Bernard, M2).
+Soit **24 tests** au total. Chaque dossier contient tout le contenu du
+précédent, plus une étape.
 
 ---
 
-## Lancer le code
+## Lancer la dernière version
 
 ```bash
-cd 1.transformer_python_projet
-python -m src.algebre
-python -m src.operateurs_logiques
-python -m tests.test_fondations
+cd 2.transformer_python_projet
+python -m src.reseau
+python -m src.donnees
+python -m tests.test_reseau
 ```
-
-NumPy suffit, il n'y a rien d'autre à installer.
-
----
-
-## Ce que je retiens de cette étape
-
-**La stabilité numérique du softmax n'est pas un détail d'implémentation.**
-`softmax([1000, 1001, 999])` renvoie `[nan, nan, nan]` avec la formule naïve,
-parce que `exp(1001)` déborde. Il faut retrancher le maximum avant
-l'exponentielle, ce qui est licite puisque le softmax est invariant par
-translation.
-
-**Le gradient de l'entropie croisée est simple.** En composant `log_softmax` et
-NLL on obtient `dL/dz = (softmax(z) - one_hot(cible)) / batch`, sans exponentielle
-ni logarithme. Je le vérifie par différences finies, l'écart relatif est de
-l'ordre de 1e-11.
-
-**La couche cachée change de repère.** XOR n'est pas linéairement séparable, je le
-vérifie par balayage exhaustif de 68 921 triplets. Le réseau le résout parce que
-sa couche cachée envoie les quatre points dans un espace où ils deviennent
-séparables.
 
 ---
 
 ## Ce qui reste ouvert
 
-Le réseau qui résout XOR, je l'ai posé à la main, en choisissant les poids
-moi-même. Pour quatre points dans le plan c'est tenable. Au-delà, non. Il me
-manque la rétropropagation.
+Mon réseau prend des sacs de mots en entrée, donc des symboles discrets sans
+aucune relation entre eux. Pour lui, `chat` est aussi éloigné de `chien` que de
+`kilomètre`.
 
-Par ailleurs, `matrice_sac_de_mots` produit le même vecteur pour *le chien mord
-l'homme* et pour *l'homme mord le chien*. Le sac de mots est aveugle à l'ordre.
+Je ne sais pas encore comment lui donner une représentation où la proximité de
+sens serait visible.
 
 ---
 
@@ -106,6 +79,8 @@ correct.
 que j'attendais, j'écris ce que j'ai trouvé.
 
 **Le code est commenté en français.**
+
+---
 
 ---
 

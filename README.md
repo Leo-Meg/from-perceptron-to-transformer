@@ -4,9 +4,8 @@ Rebuilding the parts of a language model by hand, without PyTorch and without au
 
 **Léo Mégret**, MSc Computational Linguistics, Université Paris Cité
 
-> **Repository status, version 1.** This is the first step of work I am doing in
-> stages, each in its own folder. Only version 1 exists so far. I publish as I go
-> rather than once everything is finished.
+> **Repository status, version 2.** I am doing this work in stages, each in its
+> own folder. I publish as I go rather than once everything is finished.
 
 ---
 
@@ -25,62 +24,36 @@ it.
 
 ---
 
-## What exists today
+## Published versions
 
-### Version 1, foundations. Algebra, perceptron, and why layers are needed
+| | Folder | Contents | Tests |
+|---|---|---|---:|
+| **1** | `1.transformer_python_projet` | Algebra, perceptron, and why layers are needed | 13 |
+| **2** | `2.transformer_python_projet` | Back-propagation, written by hand | 11 |
 
-| File | What I do in it |
-|---|---|
-| `src/algebre.py` | Linear combination, ReLU and tanh, numerically stable softmax and log-softmax, cross-entropy and its gradient, cosine similarity, a finite-difference gradient checker. |
-| `src/perceptron.py` | Multiclass perceptron written by hand, Rosenblatt's rule, averaged variant, home-made bag of words. |
-| `src/operateurs_logiques.py` | AND, OR and NAND set by hand, a proof that XOR is out of reach for a single neuron, and a one-hidden-layer MLP that solves it. |
-| `tests/test_fondations.py` | 13 tests, including the gradient check. |
-
-Academic origin. Three lab assignments from *Machine Learning for NLP 1* (Marie
-Candito, M1) and assignment 1 of *Machine Learning for NLP 3* (Timothée Bernard,
-M2).
+That is **24 tests** in total. Each folder contains everything the previous
+one had, plus one step.
 
 ---
 
-## Running the code
+## Running the latest version
 
 ```bash
-cd 1.transformer_python_projet
-python -m src.algebre
-python -m src.operateurs_logiques
-python -m tests.test_fondations
+cd 2.transformer_python_projet
+python -m src.reseau
+python -m src.donnees
+python -m tests.test_reseau
 ```
-
-NumPy is enough, there is nothing else to install.
-
----
-
-## What I take from this step
-
-**The numerical stability of softmax is not an implementation detail.**
-`softmax([1000, 1001, 999])` returns `[nan, nan, nan]` with the naive formula,
-because `exp(1001)` overflows. You have to subtract the maximum before the
-exponential, which is valid since softmax is invariant under translation.
-
-**The cross-entropy gradient is simple.** Composing `log_softmax` with NLL gives
-`dL/dz = (softmax(z) - one_hot(target)) / batch`, with no exponential and no
-logarithm. I check it by finite differences, the relative error is around 1e-11.
-
-**The hidden layer changes the frame of reference.** XOR is not linearly
-separable, which I verify by exhaustively sweeping 68,921 triples. The network
-solves it because its hidden layer sends the four points into a space where they
-become separable.
 
 ---
 
 ## What is still open
 
-The network that solves XOR, I set by hand, choosing the weights myself. For four
-points in the plane that works. Beyond that, it does not. What I am missing is
-back-propagation.
+My network takes bags of words as input, so discrete symbols with no relation
+between them. For it, `chat` is as far from `chien` as it is from `kilomètre`.
 
-Also, `matrice_sac_de_mots` produces the same vector for *le chien mord l'homme*
-and for *l'homme mord le chien*. A bag of words is blind to order.
+I do not yet know how to give it a representation in which closeness of meaning
+would be visible.
 
 ---
 
@@ -103,6 +76,8 @@ was wrong or incomplete, I say so and give the correct one.
 expected, I write down what I found.
 
 **The code is commented in French.**
+
+---
 
 ---
 
