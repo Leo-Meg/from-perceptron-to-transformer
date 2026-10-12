@@ -2,10 +2,10 @@
 
 Reconstruire les briques d'un modèle de langue à la main, sans PyTorch et sans différentiation automatique.
 
-**Léo Mégret**, Master Linguistique Informatique, Université Paris Cité
+**Léo Mégret** — implémentation, notes techniques en français.  
+**Haeeul Hwang** — documentation anglaise, documentation coréenne, relecture.
 
-> **État du dépôt, version 2.** Je mène ce travail par étapes, chacune dans son
-> propre dossier. Je publie au fur et à mesure plutôt qu'une fois tout terminé.
+> **État du dépôt** — étape 2 sur 6, publiée par Léo Mégret.
 
 ---
 
@@ -25,63 +25,58 @@ m'arrête dessus.
 
 ---
 
-## Les versions publiées
+## Les étapes
 
-| | Dossier | Contenu | Tests |
-|---|---|---|---:|
-| **1** | `1.transformer_python_projet` | Algèbre, perceptron, et pourquoi il faut des couches | 13 |
-| **2** | `2.transformer_python_projet` | La rétropropagation, écrite à la main | 11 |
+| | Étape | Modules | Tests | Publiée par | Note détaillée (français) |
+|---|---|---|---:|---|---|
+| **1** | Algèbre, perceptron, et pourquoi il faut des couches | `src/algebre.py`, `src/perceptron.py`, `src/operateurs_logiques.py` | 13 | Léo | [`algebre-et-perceptron`](notes/algebre-et-perceptron.md) |
+| **2** | La rétropropagation, écrite à la main | `src/reseau.py`, `src/donnees.py` | 11 | Léo | [`retropropagation`](notes/retropropagation.md) |
 
-Soit **24 tests** au total. Chaque dossier contient tout le contenu du
-précédent, plus une étape.
+**24** tests au total.
 
 ---
 
-## Lancer la dernière version
+## Ce que chaque étape a trouvé
+
+**1. Algèbre, perceptron, et pourquoi il faut des couches**  
+Le sac de mots donne exactement le même vecteur à *le chien mord l'homme* et à *l'homme mord le chien*. Toutes les architectures qui suivent n'existent que pour réintroduire cette information perdue.
+
+**2. La rétropropagation, écrite à la main**  
+Sur le problème des spirales, un modèle linéaire reste au niveau du hasard ; deux couches séparent les classes. Chaque gradient est vérifié par différences finies.
+
+---
+
+## Lancer le code
 
 ```bash
-cd 2.transformer_python_projet
 python -m src.reseau
 python -m src.donnees
+
+python -m tests.test_fondations
 python -m tests.test_reseau
 ```
 
 ---
 
-## Ce qui reste ouvert
+## Comment nous travaillons
 
-Mon réseau prend des sacs de mots en entrée, donc des symboles discrets sans
-aucune relation entre eux. Pour lui, `chat` est aussi éloigné de `chien` que de
-`kilomètre`.
+**Rien à télécharger.** Le corpus est écrit dans le code. Tous mes
+notebooks de master commençaient par un `wget` vers un serveur universitaire ou
+un montage de Google Drive ; deux ans plus tard, la moitié ne s'exécutent plus.
 
-Je ne sais pas encore comment lui donner une représentation où la proximité de
-sens serait visible.
-
----
-
-## Comment je travaille
-
-Quatre règles que je me suis données en commençant, et que je compte tenir sur
-tout le dépôt.
-
-**Rien à télécharger.** Le corpus est écrit dans le code. Mes notebooks de master
-commençaient tous par un `wget` vers un serveur universitaire ou un montage de
-Google Drive. Deux ans plus tard, la moitié ne s'exécutent plus.
-
-**Rien n'est affirmé sans mesure.** Chaque chiffre de ce fichier correspond à une
-commande qu'on peut relancer.
+**Rien n'est affirmé sans mesure.** Chaque chiffre de ce fichier correspond à
+une commande qu'on peut relancer.
 
 **Les erreurs de mes rendus sont citées, pas effacées.** Quand un résultat que
-j'avais rendu en cours était faux ou incomplet, je le dis et je donne le résultat
-correct.
+j'avais rendu était faux ou incomplet, je le dis et je donne le bon.
 
 **Les résultats négatifs restent.** Quand une expérience montre l'inverse de ce
 que j'attendais, j'écris ce que j'ai trouvé.
 
-**Le code est commenté en français.**
+**Le code est commenté en français**, parce que c'est la langue dans laquelle je
+l'ai pensé. La documentation est en anglais, et en coréen quand Haeeul est
+passée dessus.
 
 ---
 
----
-
-*Version anglaise, [README.md](README.md).*
+*English: [README.md](README.md) · [CONTRIBUTORS.md](CONTRIBUTORS.md)*

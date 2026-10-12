@@ -1,13 +1,15 @@
-# Version 2, la rétropropagation, écrite à la main
+# La rétropropagation, écrite à la main
 
-> **Où j'en suis.** La version 1 posait les briques et montrait pourquoi il faut
+> Étape 2 sur 6 du dépôt.
+
+> **Où j'en suis.** La étape 1 posait les briques et montrait pourquoi il faut
 > des couches. Ici j'apprends enfin ces couches, je réimplémente en NumPy pur
 > le mécanisme complet que PyTorch cache derrière `loss.backward()`.
 > Aucune différentiation automatique, aucun `torch`.
 
 ---
 
-## Nouveautés par rapport à la version 1
+## Nouveautés par rapport à l'étape 1
 
 | Fichier | Ce que j'ajoute |
 |---|---|
@@ -15,7 +17,7 @@
 | `src/donnees.py` | Corpus d'identification de la langue (FR/EN/ES) embarqué dans le code, découpage stratifié, sac de n-grammes de caractères. |
 | `tests/test_reseau.py` | 11 tests, dont la **vérification par différences finies de tous les paramètres du réseau**. |
 
-Tout ce que contenait la version 1 est conservé à l'identique.
+Tout ce que contenait l'étape 1 est conservé à l'identique.
 
 ## Origine universitaire
 
@@ -109,7 +111,7 @@ linéairement séparables).
 
 | Modèle | Paramètres | Exactitude validation |
 |---|---:|---:|
-| Linéaire (= perceptron v1) | 9 | 0,59 |
+| Linéaire (= perceptron étape 1) | 9 | 0,59 |
 | MLP 2×64 + ReLU | 4 547 | **1,00** |
 
 **Identification de la langue** (FR/EN/ES, 66 phrases, trigrammes de caractères).

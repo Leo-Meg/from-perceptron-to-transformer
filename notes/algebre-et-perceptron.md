@@ -1,4 +1,6 @@
-# Version 1, fondations. Algèbre, perceptron, et pourquoi il faut des couches
+# Fondations. Algèbre, perceptron, et pourquoi il faut des couches
+
+> Étape 1 sur 6 du dépôt.
 
 > **Où j'en suis.** C'est le point de départ. Je ne construis encore aucun réseau
 > profond. Je pose les briques numériques et je montre, avec quatre points dans
@@ -6,7 +8,7 @@
 
 ---
 
-## Ce que contient cette version
+## Ce que contient cette étape
 
 | Fichier | Ce que j'y fais |
 |---|---|
